@@ -17,13 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 
 		//Utilisation des littéraux de gabarit
 			const catalog = document.getElementById('catalog');
+			catalog.setAttribute('class', 'catalog');
 			const product = document.createElement('div');
 			product.setAttribute('class', 'product');
 			catalog.append(product);
 			product.innerHTML =
 			`
 				<div class="tiers">
-					<p class="ajust-name">${i.name}</p>
+					<h4>${i.name}</h4>
 				</div>
 				<div class="tiers">
 					<img src="${i.imageUrl}" class="thumbnail-teddies">
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 						<input type="submit" value="Plus d'infos!" class="button">
 					</form>
 				</div>
-			`
+			`;
 
 /*
 		//Syntaxe classique
