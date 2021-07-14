@@ -1,22 +1,54 @@
-.thumbnail-teddies{
-	width: 30%;
-	border-radius: 15px;
-	border: 1px solid grey;
-}
-.ajust-name{
-	width: 20%;
-	font-weight:  bold;
-}
-.ajust-button{
-	width: 20%;
-	height: 30px;
-	/*border-radius: 20px;*/
+.header{
+	text-align: center;
 }
 
-li{
-	border-bottom: 1px solid grey;
+.catalog{
+	width:  80%;
+	margin:  auto;
 	padding: 20px;
+	/*border: 1px solid red;*/
+}
+.product{
+	padding: 10px;
+	margin-bottom: 10px;
 	display: flex;
-	justify-content: space-between;
+	flex-direction: raw;
+	flex-wrap: wrap;
+	justify-content: space-around;
 	align-items: center;
+	/*border-bottom: 1px solid grey;*/
+	background-color: #ffeeb2;
+	border-radius: 10px;
+	box-shadow: 2px 2px 3px #c2c2c2;
+}
+.tiers {
+	width:  30%;
+	min-width: 200px;
+}
+.thumbnail-teddies{
+	width:  100%;
+	/*min-width: 200px;*/
+	border-radius: 10px;
+	/*border: 1px solid grey;*/
+}
+.ajust-name{
+	font-weight: bold;
+	/*border: 1px solid blue;*/
+}
+.ajust-button{
+	display:  flex;
+	justify-content: flex-end;
+}
+.button{
+	height: 30px;
+	color: #fff;
+	font-weight: bold;
+	background-color: #ffcc19;
+	border-radius: 50px;
+	border: none;
+	transition: transform 200ms 100ms ease-out;
+  	transform: scale(1);
+}
+.button:hover{
+	transform: scale(1.1);
 }

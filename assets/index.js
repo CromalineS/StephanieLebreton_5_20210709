@@ -2,8 +2,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS s'éxécutent après le cahrgement du DOM sans attendre la fin de ceux des feuilles de style, images ...
 	
-	function accessData () {							//fonction de récupération des données du serveur	
-		fetch('http://localhost:3000/api/teddies')					//adresse de destination de la requête
+	function accessData() {							//fonction de récupération des données du serveur	
+		fetch('http://localhost:3000/api/teddies' )					//adresse de destination de la requête
 		.then(response => response.json())				//conversion de la réponse de la promesse au format JSON → nouvelle promesse qui renvoie les données sous forme de tableau
 		.then(data => catalog(data))
 		.catch(error => alert('Request failed → ' + error))
@@ -14,6 +14,30 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 		console.log('Request successful', data);		//contrôle réussite de la requête dans la console et affichage des données récupérées				
 		
 		for(const i of data) {							//pour chaque cellule du tableau
+
+		//Utilisation des littéraux de gabarit
+			const catalog = document.getElementById('catalog');
+			const product = document.createElement('div');
+			product.setAttribute('class', 'product');
+			catalog.append(product);
+			product.innerHTML =
+			`
+				<div class="tiers">
+					<p class="ajust-name">${i.name}</p>
+				</div>
+				<div class="tiers">
+					<img src="${i.imageUrl}" class="thumbnail-teddies">
+				</div>
+				<div class="tiers">
+					<form action="product.html" class="ajust-button">
+						<input type="hidden" name="teddyId" value="${i._id}">
+						<input type="submit" value="Plus d'infos!" class="button">
+					</form>
+				</div>
+			`
+
+/*
+		//Syntaxe classique
 			//création des éléments du DOM
 			const catalog = document.getElementById('catalog'); 	//selectionne l'élément dans lequel on insère les données
 			const catalogLine = document.createElement('li');		//crée l'élément li
@@ -43,16 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 			catalogLine.append(thumbnail);							//ajout de img dans li
 			catalogLine.append(selectId);							//ajout de form dans li
 			selectId.append(sendId, wrapId);						//ajout des 2 input dans form
-/*			//ajout d'un écouteur sur le boutton
-			sendId.addEventListener('click', event => loadProductDetail(event));	//pour écouter la sélection  et envoyer sur la page produit
-
-			function loadProductDetail(event) {
-				alert('Bouton cliqué → ID : ' + i._id);
-				window.location.assign('product.html');				//assign pour aller à la page product et pouvoir revnir au catalogue avec le bouton de retour du navigateur
-				console.log(i._id);
-			}
 */
+
+
 		}
+
 	}
 	
 
