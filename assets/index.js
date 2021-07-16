@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 					<img src="${i.imageUrl}" class="thumbnail-teddies">
 				</div>
 				<div class="tiers">
-					<form action="product.html" class="ajust-button">
+					<form action="product.html" class="button-right">
 						<input type="hidden" name="teddyId" value="${i._id}">
 						<input type="submit" value="Plus d'infos!" class="button">
 					</form>
