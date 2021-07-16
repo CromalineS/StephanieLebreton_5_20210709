@@ -1,7 +1,17 @@
-//Importation des données du catalogue depuis le serveur
-
 document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS s'éxécutent après le cahrgement du DOM sans attendre la fin de ceux des feuilles de style, images ...
 	
+	document
+		.getElementById('go')
+		.innerHTML = 
+		`
+			<form action="shopping_bskt.html" class="button-right">
+				<input type="submit" value="Voir le panier" class="button">
+			</form>
+		`;
+
+
+	//Importation des données du catalogue depuis le serveur
+
 	function accessData() {							//fonction de récupération des données du serveur	
 		fetch('http://localhost:3000/api/teddies' )					//adresse de destination de la requête
 		.then(response => response.json())				//conversion de la réponse de la promesse au format JSON → nouvelle promesse qui renvoie les données sous forme de tableau
