@@ -13,7 +13,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 }
-h1, h2, h3 {
+h1, h2, h3{
 	margin: 0;
 }
 main {
@@ -67,19 +67,32 @@ main {
 	display: flex;
 	justify-content: flex-end;
 }
-/* product */
 
-.page{
-	margin-top: 20px;
+/* product et shopping_bsk */
+.section{
 	background-color: var(--main-bg);
 	border-radius: 10px;
 	box-shadow: 2px 2px 3px #c2c2c2;
+	margin-top: 20px;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
 }
+.choice, .recap {
+	background-color: var(--darker-bg);
+	padding: 10px 20px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+}
+.recap{
+	align-items: center;
+	margin:  10px;
+}
+
+/* product */
 .details{
 	width: 60%;
 	min-width: 300px;
@@ -88,13 +101,7 @@ main {
 	width: 100%;
 	border-radius: 10px;
 }
-.choice{
-	background-color: var(--darker-bg);
-	padding: 10px 20px;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-}
+
 .choice form {
 	display: flex;
 	flex-direction: column;
@@ -103,4 +110,16 @@ main {
 .button-center{
 	display: flex;
 	justify-content: center;
+}
+
+/* shopping_bsk */
+.table{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-bottom:  solid 1px grey;
+}
+.table p{
+	margin: 0;
 }

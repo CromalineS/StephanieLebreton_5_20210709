@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 
 		document
 			.getElementById('page')								
-			.setAttribute('class', 'page');
+			.setAttribute('class', 'section');
 
 		//affichage des données descriptives dans la div "details"
 		
@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 				<select id="colors"></select>
 			</form>
 			<form>
-				<label for="colors">Combien en voulez-vous?</label>
-				<input type="number"></input>
+				<label for="howMany">Combien en voulez-vous?</label>
+				<input type="number" id="howMany" value='1'></input>
 			</form>
 			<form class="ajust-button">
 				<input id="buyTeddie" type="button" value="Ajouter ${data.name} au panier !" class="button">
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 		}
 		addOptions();
 
-		//ajout d'un boutton pour aller au panier
+		//ajout d'un bouton pour aller au panier
 
 		document
 			.getElementById('go')
@@ -94,10 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS 
 			</form>
 		`;
 
+		//stockage de la sélection
 
 		const buyTeddie = document.getElementById('buyTeddie');
 		buyTeddie.addEventListener('click', addShoppingBasket);
 		function addShoppingBasket() {
+
 			localStorage.setItem(data.name, data.price);
 
 			/*localStorage.setItem('name', data.name);
