@@ -1,13 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS s'éxécutent après le cahrgement du DOM sans attendre la fin de ceux des feuilles de style, images ...
 
-	//Bouton de retour à la page d'accueil
-	document.getElementById('addButton').innerHTML =		//ne fonctionne pas avec getElementsByTagName !!!???
-	`<input id="return" type="button" value="Retour au catalogue" class="button"></input>`;
-	let returnButton = document.getElementById('return');
+//Bouton de retour à la page d'accueil
 
-	returnButton.addEventListener('click', function(){
-		window.location.replace('index.html');
-	});
+document
+	.getElementById('return')
+	.innerHTML = 
+	`
+		<form action="index.html">
+			<input type="submit" value="Retour au catalogue" class="button">
+		</form>
+	`;
+
 
 	//récupération des données transmises dans l'URL par la page indx.html
 
