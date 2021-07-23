@@ -23,9 +23,6 @@
 
 			<div id="list">
 				<h4>Récapitulatif de la commande</h4>
-				<div>
-					
-				</div>
 			</div>
 			<div id="total">
 				<h4>Coût total</h4>
@@ -35,9 +32,29 @@
 
 		<section>
 
-			<div id="client"></div>
+			<div id="command">
+				<form class="valid">
+						<legend>Contact</legend>
+						<label for="clientFirstName">Prénom</label>
+						<br><input id="clientName" type="text" name="prenom"></input>
+						<br><label for="clientLastName">Nom</label>
+						<br><input id="clientLastName" type="text" name="nom"></input>
+						<br><label for="clientMail">Mail</label>
+						<br><input id="clientMail" type="mail" name="mail"></input>
+				</form>
+				<form class="valid">
+						<legend>Adresse</legend>
+						<br><label for="clientAdress1">N° et voie</label>
+						<br><input id="clientAdress1" type="" name="adresse"></input>
+						<br><label for="clientTown">Ville</label>
+						<br><input id="clientTown" type="text" name="ville"></input>
+				</form>
+			</div>
+			<div class="button-center">
+				<input type="submit" value="Valider la commande" class="button" tabindex="90"></input>
+			</div>
 
-			<div id="valid"></div>
+			
 			
 		</section>
 		
@@ -45,7 +62,7 @@
 
 	<!--	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 -->
-	<script type="text/javascript" src="assets/shopping_bskt.js"></script>
+	<script type="text/javascript" src="assets/shopping_bskt.js" defer></script>
 
 </body>
 </html>

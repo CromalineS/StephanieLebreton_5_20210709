@@ -1,6 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {	//pour que les scripts JS s'éxécutent après le cahrgement du DOM sans attendre la fin de ceux des feuilles de style, images ...
-
-//Bouton de retour à la page d'accueil
+/**/ //Bouton de retour à la page d'accueil							//à revoir, pas besoin de JS
 
 document
 	.getElementById('return')
@@ -12,115 +10,129 @@ document
 	`;
 
 
-	//récupération des données transmises dans l'URL par la page indx.html
+//récupération de l'identifiant produit transmis dans l'URL par la page indx.html = 
 
-	let sendId = location.search.substring(1).split('=')[1];	//la chaine des données envoyées via l'URL est transformée en 2 sous-chaine : premier membre du tableau (indice 0) = nom de la donnée, 2eme membre du tableau (indice 1) = valeur de la donnée
-	console.log(sendId);
-	console.log(typeof sendId);
+let sendId = location.search.substring(1).split('=')[1];	//la chaine des données envoyées via l'URL est transformée en 2 sous-chaine : premier membre du tableau (indice 0) = nom de la donnée, 2eme membre du tableau (indice 1) = valeur de la donnée
+/*console.log(sendId);
+console.log(typeof sendId);*/
 
-	//appel des données correspondant à l'identifiant envoyé via l'URL
+//appel des données correspondant à l'identifiant envoyé via l'URL
 
-	function accessData () {										//fonction de récupération des données du serveur	
-			fetch('http://localhost:3000/api/teddies/' + sendId)	//adresse de destination de la requête	
-			.then(response => response.json())						//conversion de la réponse de la promesse au format JSON → nouvelle promesse qui renvoie les données sous forme de tableau
-			.then(data => productDetails(data))
-			.catch(error => alert('Request failed → ' + error))
-		}
+function accessData () {										//fonction de récupération des données du serveur	
+		fetch('http://localhost:3000/api/teddies/' + sendId)	//adresse de destination de la requête 	
+		.then(response => response.json())						//conversion de la réponse de la promesse au format JSON → nouvelle promesse qui renvoie les données sous forme de tableau
+		.then(data => productDetails(data))
+		.catch(error => alert('Request failed → ' + error))
+	}
 
-	//construction de la page "détail du produit et choix des options"
 
-	function productDetails(data) {
 
-		//contrôle réussite de la requête dans la console et affichage des données récupérées
+//initialisation du local storage = création de l'objet panierStorage pour contenir les données d'un produit
 
-		console.log('Request successful', data);					
+if(localStorage.getItem('panierStorage')){
+	//console.log('Le panier existe déjà');
+}else{
+	//console.log('Création du panier');
+	const init = [];												//création d'un objet array
+	localStorage.setItem('panierStorage', JSON.stringify(init));	//stockage de l'objet 'init' dans le local storage / JSON.stringify() = conversion de l'objet JavaScript en chaine JSON interprétable par le navigateur
+}
 
-		//nom de l'ours dans la balise "title"
+//récup de panierStorage pour pouvoir le remplir avec les données du produits correspondant à l'identifiant transmit dans l'URL
+let panier = JSON.parse(localStorage.getItem('panierStorage'));		//JSON.parse() construit un objet JavaScript à partir de la chaine JSON
+console.log(panier);
 
-		document
-			.querySelector('head > title')
-			.textContent = data.name + ' - Oripeluche';
 
-		//style de l'article "page"
 
-		document
-			.getElementById('page')								
-			.setAttribute('class', 'section');
+//construction de la page "détail du produit et choix des options"
 
-		//affichage des données descriptives dans la div "details"
+function productDetails(data) {
+
+	//contrôle réussite de la requête dans la console et affichage des données récupérées
+
+	console.log('Request successful', data);					
+
+	//nom de l'ours dans la balise "title"
+
+	document
+		.querySelector('head > title')
+		.textContent = data.name + ' - Oripeluche';
+
+	//style de l'article "page"
+
+	const page = document.getElementById('page')								
+	page.setAttribute('class', 'section section-horizontal-center');
+
+	//affichage des données descriptives dans la div "details"
+	
+	const details = document.getElementById('details');			//cible l'élément dans lequel on insère les données
+	details.setAttribute('class', 'details'); 					//style de la div "details"
+	details.innerHTML =											//littéraux gabarit pour ajouter les neuds (nom du produit, photo et descrptif)
+	`
+		<h4>${data.name} : ${data.price/100} €</h4>								
+		<img src="${data.imageUrl}" class="photo">			
+		<p>${data.description}</p>
+	`;
+
+	//affichage des données de personnalisation et envoie de l'article dans le panier de l'article (dans la div "choice")
+	
+	const choice =document.getElementById('choice');			//cible l'élément dans lequel on insère les données
+	choice.setAttribute('class', 'choice');						//style de la div choice
+/**/choice.innerHTML =											//à revoir, pas besoin de JS sauf pour le bouton qui mentionne le nom du produit
+	`
+		<form>
+			<label for="colors">Choisissez la couleur</label>
+			<select id="colors"></select>
+		</form>
+		<form>
+			<label for="howMany">Combien en voulez-vous?</label>
+			<input type="number" id="howMany" value='1'></input>
+		</form>
+		<form class="ajust-button">
+			<input id="buyTeddie" type="button" value="Ajouter ${data.name} au panier !" class="button">
+		</form>
+	`;
+
+	function addOptions(){											//Ajout des options à la liste déroulante du choix des couleurs
 		
-		const details = document.getElementById('details');			//cible l'élément dans lequel on insère les données
-		details.setAttribute('class', 'details'); 					//attribue une classe à la div "details"
-		details.innerHTML =											//littéraux gabarit pour ajouter les neuds (nom du produit, photo et descrptif)
-		`
-			<h4>${data.name} : ${data.price/100} €</h4>								
-			<img src="${data.imageUrl}" class="photo">			
-			<p>${data.description}</p>
-		`;
-
-		//affichage des données de personnalisation, prix et choix de l'article dans la div "choice"
-		
-		const choice =document.getElementById('choice');			//cible l'élément dans lequel on insère les données
-		choice.setAttribute('class', 'choice');
-		choice.innerHTML =
-		`
-			<form>
-				<label for="colors">Choisissez la couleur</label>
-				<select id="colors"></select>
-			</form>
-			<form>
-				<label for="howMany">Combien en voulez-vous?</label>
-				<input type="number" id="howMany" value='1'></input>
-			</form>
-			<form class="ajust-button">
-				<input id="buyTeddie" type="button" value="Ajouter ${data.name} au panier !" class="button">
-			</form>
-		`;
-		function addOptions(){											//Ajout des options à la liste déroulante du choix des couleurs
-			for(const x of data.colors) {
-				const option = document.createElement('option');		//crée l'élément "option" pour chaque valeur du tableau
-				option.setAttribute('value', x);						//pour pourvoir utiliser la valeur de la couleur peut-être ?
-				option.textContent = x;									//écrit le texte de l'option
-				document.getElementById('colors').append(option);							//ajoute les balises 'option' à la balise 'select' d'id 'colors'			
-			}
+		for(const x of data.colors) {
+			const option = document.createElement('option');		//crée l'élément "option" pour chaque valeur du tableau
+			option.setAttribute('value', x);						//pour pourvoir utiliser la valeur de la couleur peut-être ?
+			option.textContent = x;									//écrit le texte de l'option
+			document.getElementById('colors').append(option);		//ajoute les balises 'option' à la balise 'select' d'id 'colors'			
 		}
-		addOptions();
+	
+	}
+	addOptions();
 
-		//ajout d'un bouton pour aller au panier
+	//stockage de la sélection
 
-		document
-			.getElementById('go')
-			.innerHTML = 
-		`
-			<form action="shopping_bskt.html" class="button-center">
-				<input type="submit" value="Voir le panier" class="button">
-			</form>
-		`;
+	function addShoppingBasket() {
 
-		//stockage de la sélection
-
-		const buyTeddie = document.getElementById('buyTeddie');
-		buyTeddie.addEventListener('click', addShoppingBasket);
-		function addShoppingBasket() {
-
-			localStorage.setItem(data.name, data.price);
-
-			/*localStorage.setItem('name', data.name);
-			localStorage.setItem('price', data.price);*/
-		}
+		panier.push(data);												//les données du produit sont placée dans le panier
+		localStorage.setItem('panierStorage', JSON.stringify(panier));	//stockage du panier dans le local storage : paire clé(panierStorage)/valeur(objet panier converti en chaine JSON)
+		alert('Produit ajouté : ' + data.name);
+		location.reload();
 
 	}
 
-	accessData();
+	const buyTeddie = document.getElementById('buyTeddie');				
+	buyTeddie.addEventListener('click', addShoppingBasket);				//écouteur = permet d'exécuter la fonction addShoppingBasket au click sur le bouton
 
-})
 
-	/*
-		const selectColors = document.getElementById('colors');		//Ajout des options à la liste déroulante du choix des couleurs
-		let option = document.createElement('option');
-		data.colors.forEach( x => { 
-			option.setAttribute('value', x);
-			option.textContent = x;
-			selectColors.append(option);
-		});									//ne fonctionne pas  : ne donne que le dernier choix ????
-	*/
+
+/**/	//ajout d'un bouton pour aller au panierStorage					//à revoir, pas besoin de JS
+
+	document
+		.getElementById('go')
+		.innerHTML = 
+	`
+		<form action="shopping_bskt.html" class="button-center">
+			<input type="submit" value="Voir le panier" class="button">
+		</form>
+	`;
+
+	
+
+}
+
+accessData();
