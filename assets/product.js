@@ -1,15 +1,3 @@
-/**/ //Bouton de retour à la page d'accueil							//à revoir, pas besoin de JS
-
-document
-	.getElementById('return')
-	.innerHTML = 
-	`
-		<form action="index.html">
-			<input type="submit" value="Retour au catalogue" class="button">
-		</form>
-	`;
-
-
 //récupération de l'identifiant produit transmis dans l'URL par la page indx.html = 
 
 let sendId = location.search.substring(1).split('=')[1];	//la chaine des données envoyées via l'URL est transformée en 2 sous-chaine : premier membre du tableau (indice 0) = nom de la donnée, 2eme membre du tableau (indice 1) = valeur de la donnée
@@ -25,8 +13,6 @@ function accessData () {										//fonction de récupération des données du s
 		.catch(error => alert('Request failed → ' + error))
 	}
 
-
-
 //initialisation du local storage = création de l'objet panierStorage pour contenir les données d'un produit
 
 if(localStorage.getItem('panierStorage')){
@@ -37,7 +23,7 @@ if(localStorage.getItem('panierStorage')){
 	localStorage.setItem('panierStorage', JSON.stringify(init));	//stockage de l'objet 'init' dans le local storage / JSON.stringify() = conversion de l'objet JavaScript en chaine JSON interprétable par le navigateur
 }
 
-//récup de panierStorage pour pouvoir le remplir avec les données du produits correspondant à l'identifiant transmit dans l'URL
+//récup de "panierStorage" dans "panier" our pouvoir le remplir avec les données du produits correspondant à l'identifiant transmit dans l'URL
 let panier = JSON.parse(localStorage.getItem('panierStorage'));		//JSON.parse() construit un objet JavaScript à partir de la chaine JSON
 console.log(panier);
 
@@ -58,14 +44,15 @@ function productDetails(data) {
 		.textContent = data.name + ' - Oripeluche';
 
 	//style de l'article "page"
-
+	/*
 	const page = document.getElementById('page')								
 	page.setAttribute('class', 'section section-horizontal-center');
+	*/
 
 	//affichage des données descriptives dans la div "details"
 	
 	const details = document.getElementById('details');			//cible l'élément dans lequel on insère les données
-	details.setAttribute('class', 'details'); 					//style de la div "details"
+	/*details.setAttribute('class', 'details'); */					//style de la div "details"
 	details.innerHTML =											//littéraux gabarit pour ajouter les neuds (nom du produit, photo et descrptif)
 	`
 		<h4>${data.name} : ${data.price/100} €</h4>								
@@ -76,16 +63,16 @@ function productDetails(data) {
 	//affichage des données de personnalisation et envoie de l'article dans le panier de l'article (dans la div "choice")
 	
 	const choice =document.getElementById('choice');			//cible l'élément dans lequel on insère les données
-	choice.setAttribute('class', 'choice');						//style de la div choice
+	/*choice.setAttribute('class', 'choice');*/						//style de la div choice
 /**/choice.innerHTML =											//à revoir, pas besoin de JS sauf pour le bouton qui mentionne le nom du produit
 	`
-		<form>
+		<form class="form-choice">
 			<label for="colors">Choisissez la couleur</label>
 			<select id="colors"></select>
 		</form>
-		<form>
+		<form class="form-choice">
 			<label for="howMany">Combien en voulez-vous?</label>
-			<input type="number" id="howMany" value='1'></input>
+			<input type="number" id="howMany" value='1'>
 		</form>
 		<form class="ajust-button">
 			<input id="buyTeddie" type="button" value="Ajouter ${data.name} au panier !" class="button">
@@ -117,21 +104,6 @@ function productDetails(data) {
 
 	const buyTeddie = document.getElementById('buyTeddie');				
 	buyTeddie.addEventListener('click', addShoppingBasket);				//écouteur = permet d'exécuter la fonction addShoppingBasket au click sur le bouton
-
-
-
-/**/	//ajout d'un bouton pour aller au panierStorage					//à revoir, pas besoin de JS
-
-	document
-		.getElementById('go')
-		.innerHTML = 
-	`
-		<form action="shopping_bskt.html" class="button-center">
-			<input type="submit" value="Voir le panier" class="button">
-		</form>
-	`;
-
-	
 
 }
 

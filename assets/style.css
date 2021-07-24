@@ -27,10 +27,15 @@ label{
 input, select{
 	background-color: var(--main);
 	border: solid 1px var(--main);
+	transition: all 400ms;
 }
 input:focus, select:focus{
 	border: solid 1px var(--button);
 	outline: none;
+}
+input:invalid {
+	color: red;
+	border: solid 1px red;
 }
 .header{
 	text-align: center;			/*pour les titres de index*/
@@ -70,7 +75,7 @@ input:focus, select:focus{
 .button:hover, .button:focus{
 	transform: scale(1.1);
 }
-.{}.button:active{
+.button:active{
 	color: var(--button);
 	background-color: var(--main);
 }
@@ -109,6 +114,11 @@ input:focus, select:focus{
 }
 .recap{
 	width: 50%;
+	min-width: 200px;
+}
+.valid, .button-command{
+	width: 30%;
+	min-width: 200px;
 }
 
 /* product */
@@ -121,7 +131,7 @@ input:focus, select:focus{
 	width: 100%;
 	border-radius: 10px;
 }
-.choice form {
+.form-choice {
 	display: flex;
 	flex-direction: column;
 	margin:  10px 0;
@@ -137,10 +147,17 @@ input:focus, select:focus{
 	align-items: center;
 	border-bottom: solid 1px grey;
 }
-
 .table p{
 	width: 30%;
 	min-width: 60px;
 	margin: 0;
 }
-
+.form-valid{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.button-command{
+	width: 100%;
+}

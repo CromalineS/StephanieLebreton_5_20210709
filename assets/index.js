@@ -1,15 +1,3 @@
-/**/ //bouton vers le panier					//à revoir, pas besoin de JS
-
-document
-	.getElementById('go')
-	.innerHTML = 
-	`
-		<form action="shopping_bskt.html" class="button-right">
-			<input type="submit" value="Voir le panier" class="button">
-		</form>
-	`;
-
-
 //Importation des données du catalogue depuis le serveur
 
 function accessData() {										//fonction de récupération des données du serveur	

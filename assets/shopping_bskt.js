@@ -1,39 +1,13 @@
-/**/ //Bouton de retour à la page d'accueil				////à revoir, pas besoin de JS
-
-const returnBtn = document.getElementById('return')
-returnBtn.innerHTML = 
-	`
-		<form action="index.html">
-			<input type="submit" value="Retour au catalogue" class="button"></input>
-		</form>
-	`;
-
-//style section shopBskt
-
-document
-	.getElementById('shopBskt')
-	.setAttribute('class', 'section section-horizontal-center');
-document
-	.getElementById('list')
-	.setAttribute('class', 'recap');
-document
-	.getElementById('total')
-	.setAttribute('class', 'total');
-
-//style section command
-
-const command = document.getElementById('command')
-command.setAttribute('class', 'section');
-
 //récup de panierStorage
-/*	let panier = JSON.parse(localStorage.getItem('panierStorage'));*/
-	/*console.log(panier);*/
+let panier = JSON.parse(localStorage.getItem('panierStorage'));		//parce qu'on ne peut pas remplacer un élément de l'objet du localStorage directement → il faut transformer panierStorage JSON en tableau manipulable (panier) dans le fichier JS / le panier JS sera ensuite retranformé en objet JSON pour le localStorage
 
 //construction du tableau récapitulatif des produits
 
 function recapProducts() {										//Liste les produits choisis nom et prix						
-	let panier = JSON.parse(localStorage.getItem('panierStorage'));
+	
+	
 	let totalPrice = 0;	//initialisation de la variable qui contient le coût total du panier	
+	
 	for(let i in panier) {					//parcourt le tableau localStorage
 		
 		const list = document.getElementById('list');			//cible la div d'id 'list'
@@ -46,7 +20,7 @@ function recapProducts() {										//Liste les produits choisis nom et prix
 		`
 			<p id="name">${nameProduct}</p>
 			<p id="price">${priceProduct}€</p>
-			<input id="delete-${i}" type="submit" value="Supprimer" class="button"></input>
+			<input id="delete-${i}" type="submit" value="Supprimer" class="button">
 		`;
 		totalPrice += priceProduct;
 
@@ -55,21 +29,74 @@ function recapProducts() {										//Liste les produits choisis nom et prix
 		let deleteBtn = document.getElementById('delete-' + i);	//losqu'on clique sur le bouton d'id "delete-i"
 		deleteBtn.onclick = function(){							
 
-			let productSuppress = panier.splice(i, 1);			//supprimer le membre d'indice i du panier
+			let productSuppress = panier.splice(i, 1);			//supprime le membre d'indice i du panier et la variable supressProduct stocke l'élément supprimé (→ tableau à un index = 0)
+			('Vous avez supprimé ' + productSuppress[0].name + ' du panier.');		//affiche le nom du produit supprimé dans la boite d'alerte
 			localStorage.setItem('panierStorage', JSON.stringify(panier));	//mise à jour du panierStorage
 			totalPrice -= priceProduct;							//prix total - pris du produit supprimé
-			alert('Vous avez supprimé ' + productSuppress[i].name + ' du panier.');		//affiche le nom du produit supprimé dans la boite d'alerte
-			location.reload();									//recharge la page
+			location.reload();								//recharge la page
 			};
 
 	}
-console.log(panier);
 	
+	//écrit le prix total
+	
+	const lineTotal = document.createElement('p');				
+	lineTotal.textContent = totalPrice + ' €';
+	document.getElementById('total').append(lineTotal);
+
+}
+
+recapProducts();
+
+//Envoi des données de la commande au serveur
+
+//Préparation des données à envoyer dans un objet postData
+
+const postData = {											
+	contact: {							//objet contact : contient les données du formulaire de contact
+		firtName: document.getElementById('clientFirstName').value,
+		lastName: document.getElementById('clientLastName').value,
+		adress: document.getElementById('clientAdress').value,
+		city: document.getElementById('clientCity').value,
+		mail: document.getElementById('clientMail').value
+	},
+	products: []						//objet products : tableau contenant les id des produits mis dans le panier
+};		
+							
+for (let i in panier) {					//remplit le tableau products de l'objet postData avec les id des produits du panier											
+	postData.products.push(panier[i]._id);
+}
+
+console.log(panier);
+console.log(postData);
+
+//validation des données et envoi
+
+function commandValid(){
+
+	//vérifier la validité des champs des formulaires
+
+	document.getElementById('clientFirstName').addEventListener('onchange', testDataString);
+	function testDataString(event) {
+	/*	if() {
+
+			alert('Saisie incorrecte');
+			event.preventDefault();
+		}*/
+	}
+
+	//si au moins un champ n'est pas valide : bloquer l'envoi → preventDefault()
+	//si tous les champs sont valides : envoyer une requête fetch post contenant les informations des formulaires (créer un tableau ?)
+	//redirection vers la page de confirmation de commande
+}
+
+
+
+
 /*
-	panier.splice(0, 1);
-	console.log(panier);
-*/
-/*
+
+	//construction du tableau récapitulatif des produits
+
 	for(let i=0; i<localStorage.length; i++) {					//parcourt le tableau localStorage
 		const line = document.createElement('p');				//créé l'élément ligne
 		line.setAttribute('class', 'table');
@@ -96,24 +123,3 @@ console.log(panier);
 			};
 	}
 */	
-	//écrit le prix total
-	
-	const lineTotal = document.createElement('p');				
-	lineTotal.textContent = totalPrice + ' €';
-	document.getElementById('total').append(lineTotal);
-
-}
-
-const postData = {
-	contact: {},
-	products: []
-}
-
-function commandValid(){
-	//vérifier la validité des champs des formulaires
-	//si au moins un champ n'est pas valide : bloquer l'envoi → preventDefault()
-	//si tous les champs sont valides : envoyer une requête fetch post contenant les informations des formulaires (créer un tableau ?)
-	//redirection vers la page de confirmation de commande
-}
-
-recapProducts();
