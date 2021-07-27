@@ -23,7 +23,8 @@ if(localStorage.getItem('panierStorage')){
 	localStorage.setItem('panierStorage', JSON.stringify(init));	//stockage de l'objet 'init' dans le local storage / JSON.stringify() = conversion de l'objet JavaScript en chaine JSON interprétable par le navigateur
 }
 
-//récup de "panierStorage" dans "panier" our pouvoir le remplir avec les données du produits correspondant à l'identifiant transmit dans l'URL
+//récupération de "panierStorage" dans "panier" pour pouvoir le remplir avec les données du produits correspondant à l'identifiant transmit dans l'URL
+
 let panier = JSON.parse(localStorage.getItem('panierStorage'));		//JSON.parse() construit un objet JavaScript à partir de la chaine JSON
 console.log(panier);
 
@@ -33,7 +34,7 @@ function productDetails(data) {
 	
 	console.log('Request successful', data);						//contrôle réussite de la requête dans la console et affichage des données récupérées
 	
-	document.querySelector('head > title').textContent = data.name + ' - Oripeluche';	//nom de l'ours dans la balise "title"
+	document.querySelector('head > title').textContent = data.name + ' - Oripeluche';	//nom du produit dans la balise "title"
 		
 	//affichage des données descriptives dans la div "details"
 	
@@ -73,7 +74,7 @@ function productDetails(data) {
 	}
 	addOptions();
 
-	//stockage de la sélection
+	//stockage de la sélection dans la localStorage
 
 	function addShoppingBasket() {
 		panier.push(data);												//les données du produit sont placée dans le panier

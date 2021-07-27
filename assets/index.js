@@ -34,6 +34,9 @@ function catalog(data) {									//fonction qui remplit le catalog avec les donn
 		`;
 	}
 }
+
+accessData();
+
 /*
 	//Syntaxe classique
 		//création des éléments du DOM
@@ -71,4 +74,4 @@ function catalog(data) {									//fonction qui remplit le catalog avec les donn
 
 
 
-accessData();
+

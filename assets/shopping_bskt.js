@@ -4,12 +4,11 @@
 
 let panier = JSON.parse(localStorage.getItem('panierStorage')); //tableau des produits sélectionnés sous forme d'objets contenant les données : _id du produit, son nom et son prix
 
-//CONSTRUCTION DU TABLEAU RÉCAPITULATIF DES PRODUITS SÉLECTIONNÉS
+//CONSTRUCTION DU TABLEAU RÉCAPITULATIF DES PRODUITS SÉLECTIONNÉS ET ANNONCE PRIX TOTAL
 
-function recapProducts() {					
-	
-	let totalPrice = 0;											//initialisation de la variable qui contient le coût total du panier	
-	
+let totalPrice = 0;												//initialisation de la variable qui contient le coût total du panier	
+
+function recapProducts() {				
 	for(let i in panier) {										//pour chaque produit du panier...
 		const list = document.getElementById('list');			//dans la dic d'id 'list'...
 		const line = document.createElement('p');				//créer une ligne pour afficher les données du produit
@@ -20,7 +19,7 @@ function recapProducts() {
 		line.innerHTML =										//ajoute à la ligne les balises p qui contiennent le nom et le prix du produit, et un bouton de suppression
 		`
 			<p id="name">${nameProduct}</p>
-			<p id="price">${priceProduct}€</p>
+			<p id="price">${priceProduct} €</p>
 			<input id="delete-${i}" type="submit" value="Supprimer" class="button">
 		`;
 		totalPrice += priceProduct;								//calcule la somme totale du panier
@@ -118,19 +117,22 @@ function postData(e){
 	}else{															//sinon, si tous les champs du formulaire sont valides
 		
 		document.getElementById('error-message').textContent = '';
-		fetch('http://localhost:3000/api/teddies/order/', {				//envoi des données au serveur = requête fetch à l'url du serveur
+		fetch('http://localhost:3000/api/teddies/order/', {			//envoi des données au serveur = requête fetch à l'url du serveur
 			method: 'POST',											//indique la méthode d'envoi des données
 			headers: {'Content-Type': 'application/json'},			//indique le format des données envoyées (JSON)
 			body: JSON.stringify(dataToPost)						//données converties au format JSON
 		})
 		.then(response => response.json())							//conversion de la réponse de la promesse au format JSON → nouvelle promesse qui renvoie les données sous forme de tableau
-		.then(data => confirm(data))							//exécute la fonction qui ...
+		.then(data => confirm(data))								//exécute la fonction qui envoie vers la page de confirmation et stocke les données dans le localStorage
 		.catch(error => alert('Request failed → ' + error))			//signale un échec de la requête
 	}
 }
 
 function confirm(data) {
-	console.log('Request successful', data);
+	console.log('Request successful', data);						//contrôle réussite de la requête dans la console et affichage des données récupérées = tableau contenant un tableau par produit				
+	localStorage.setItem('priceCommand', totalPrice);				//stocke le prix total de la commande dans le localStorage
+	localStorage.setItem('idCommand', data.orderId);				//stocke le numéro de la commande dans le localStorage
+	document.location.href = 'confirm.html';
 }
 			
 /*			.then(console.log(response.orderId))					//contrôle (à supprimer)
