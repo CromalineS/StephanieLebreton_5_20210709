@@ -4,7 +4,7 @@ function accessData() {										//fonction de récupération des données du se
 	fetch('http://localhost:3000/api/teddies' )				//adresse de destination de la requête
 	.then(response => response.json())						//conversion de la réponse de la promesse au format JSON → nouvelle promesse qui renvoie les données sous forme de tableau
 	.then(data => catalog(data))							//exécute la fonction qui crée le catalogue (en cas de succès de la requête)
-	.catch(error => alert('Request failed → ' + error))		//signal un échec de la requête
+	.catch(error => alert('Request failed → ' + error))		//signale un échec de la requête
 }
 
 function catalog(data) {									//fonction qui remplit le catalog avec les données récupérée
@@ -28,7 +28,7 @@ function catalog(data) {									//fonction qui remplit le catalog avec les donn
 			<div class="tiers">
 				<form action="product.html" class="button-right">
 					<input type="hidden" name="teddyId" value="${x._id}">
-					<input type="submit" value="Plus d'infos!" class="button">
+					<input type="submit" value="Plus d'infos !" class="button">
 				</form>
 			</div>
 		`;

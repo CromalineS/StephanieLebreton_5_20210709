@@ -37,36 +37,36 @@
 		<section>
 
 			<div id="command" class="section">
-				<form action="confirmPage.html" class="form-valid">
+				<form id="formValid" class="form-valid">
 					<div class="valid">
 						<legend>Contact</legend>
-						<label for="clientFirstName">Prénom</label>
-						<br><input id="clientFirstName" type="text" name="prenom" required>
-						<br><label for="clientLastName">Nom</label>
-						<br><input id="clientLastName" type="text" name="nom" required>
-						<br><label for="clientMail">Mail</label>
-						<br><input id="clientMail" type="email" name="mail" required>
+						<label for="firstName">Prénom<span></span></label>
+						<input id="firstName" type="text">
+						<label for="lastName">Nom<span></span></label>
+						<input id="lastName" type="text">
+						<label for="eMail">Mail<span></span></label>
+						<input id="eMail" type="text">
 					</div>
 					<div class="valid">
 						<legend>Adresse</legend>
-						<br><label for="clientAdress">N° et voie</label>
-						<br><input id="clientAdress" type="" name="adresse" required>
-						<br><label for="clientCity">Ville</label>
-						<br><input id="clientCity" type="text" name="ville" required>
+						<label for="address">N° et voie<span></span></label>
+						<input id="address" type="text">
+						<label for="city">Ville<span></span></label>
+						<input id="city" type="text">
 					</div>
+					<p id="error-message" class="error-message"></p>
 					<div class="button-command button-center">
-						<input type="hidden" name="">
-						<input type="submit" value="Valider la commande" class="button">
+						<input id="submit" type="submit" value="Valider la commande" class="button">
 					<div>
 				</form>
 			</div>
-			<div >
-				
-			</div>
-
+		
 			
 			
 		</section>
+
+
+		
 		
 	</main>
 

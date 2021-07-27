@@ -33,9 +33,8 @@ input:focus, select:focus{
 	border: solid 1px var(--button);
 	outline: none;
 }
-input:invalid {
+input:not(:focus):invalid {		/*montre un champ mal rempli en sortie de focus*/
 	color: red;
-	border: solid 1px red;
 }
 .header{
 	text-align: center;			/*pour les titres de index*/
@@ -68,15 +67,18 @@ input:invalid {
 	margin: 10px 0;
 	background-color: var(--button);
 	border-radius: 50px;
-	border: none;
+	border: solid 1px var(--button);
 	transition: transform 200ms 100ms ease-out;
   	transform: scale(1);
 }
 .button:hover, .button:focus{
-	transform: scale(1.1);
+	transform: scale(1.02);
+	color: var(--button);
+	background-color: var(--main);
+	border: solid 1px var(--button);
 }
 .button:active{
-	color: var(--button);
+	color: #fff;
 	background-color: var(--main);
 }
 .button-right{
@@ -129,6 +131,7 @@ input:invalid {
 }
 .photo{
 	width: 100%;
+	max-width:  700px;
 	border-radius: 10px;
 }
 .form-choice {
@@ -158,6 +161,22 @@ input:invalid {
 	flex-wrap: wrap;
 	justify-content: space-around;
 }
-.button-command{
+.button-command {
 	width: 100%;
+}
+.error-input{
+	background-color: #ffadad;
+}
+.error-label{
+	color: red;
+	font-size: 0.8em;
+	float: right;
+}
+.error-message{
+	width: 100%;
+	height: 10px;
+	margin: 0;
+	color: red;
+	font-size: 0.6em;
+	text-align: center;
 }

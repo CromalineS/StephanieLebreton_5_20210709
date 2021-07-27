@@ -27,32 +27,17 @@ if(localStorage.getItem('panierStorage')){
 let panier = JSON.parse(localStorage.getItem('panierStorage'));		//JSON.parse() construit un objet JavaScript à partir de la chaine JSON
 console.log(panier);
 
-
-
 //construction de la page "détail du produit et choix des options"
 
 function productDetails(data) {
-
-	//contrôle réussite de la requête dans la console et affichage des données récupérées
-
-	console.log('Request successful', data);					
-
-	//nom de l'ours dans la balise "title"
-
-	document
-		.querySelector('head > title')
-		.textContent = data.name + ' - Oripeluche';
-
-	//style de l'article "page"
-	/*
-	const page = document.getElementById('page')								
-	page.setAttribute('class', 'section section-horizontal-center');
-	*/
-
+	
+	console.log('Request successful', data);						//contrôle réussite de la requête dans la console et affichage des données récupérées
+	
+	document.querySelector('head > title').textContent = data.name + ' - Oripeluche';	//nom de l'ours dans la balise "title"
+		
 	//affichage des données descriptives dans la div "details"
 	
 	const details = document.getElementById('details');			//cible l'élément dans lequel on insère les données
-	/*details.setAttribute('class', 'details'); */					//style de la div "details"
 	details.innerHTML =											//littéraux gabarit pour ajouter les neuds (nom du produit, photo et descrptif)
 	`
 		<h4>${data.name} : ${data.price/100} €</h4>								
@@ -63,7 +48,6 @@ function productDetails(data) {
 	//affichage des données de personnalisation et envoie de l'article dans le panier de l'article (dans la div "choice")
 	
 	const choice =document.getElementById('choice');			//cible l'élément dans lequel on insère les données
-	/*choice.setAttribute('class', 'choice');*/						//style de la div choice
 /**/choice.innerHTML =											//à revoir, pas besoin de JS sauf pour le bouton qui mentionne le nom du produit
 	`
 		<form class="form-choice">
@@ -80,26 +64,22 @@ function productDetails(data) {
 	`;
 
 	function addOptions(){											//Ajout des options à la liste déroulante du choix des couleurs
-		
 		for(const x of data.colors) {
 			const option = document.createElement('option');		//crée l'élément "option" pour chaque valeur du tableau
 			option.setAttribute('value', x);						//pour pourvoir utiliser la valeur de la couleur peut-être ?
 			option.textContent = x;									//écrit le texte de l'option
 			document.getElementById('colors').append(option);		//ajoute les balises 'option' à la balise 'select' d'id 'colors'			
 		}
-	
 	}
 	addOptions();
 
 	//stockage de la sélection
 
 	function addShoppingBasket() {
-
 		panier.push(data);												//les données du produit sont placée dans le panier
 		localStorage.setItem('panierStorage', JSON.stringify(panier));	//stockage du panier dans le local storage : paire clé(panierStorage)/valeur(objet panier converti en chaine JSON)
 		alert('Produit ajouté : ' + data.name);
 		location.reload();
-
 	}
 
 	const buyTeddie = document.getElementById('buyTeddie');				
