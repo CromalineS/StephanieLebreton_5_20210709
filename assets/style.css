@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* common */
 
 body {
@@ -90,6 +91,18 @@ input:not(:focus):invalid {		/*montre un champ mal rempli en sortie de focus*/
 	justify-content: center;
 }
 
+@keyframes anim {
+	from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
 /* index */
 
 .tiers {
@@ -100,6 +113,24 @@ input:not(:focus):invalid {		/*montre un champ mal rempli en sortie de focus*/
 	width:  100%;
 	/*min-width: 200px;*/
 	border-radius: 10px;
+}
+.anim{
+	animation: anim 1s both cubic-bezier(0, 0, 0.2, 1);
+}
+.anim-0{
+	animation-delay: 960ms;
+}
+.anim-1{
+	animation-delay: 1120ms;
+}
+.anim-2{
+	animation-delay: 1280ms;
+}
+.anim-3{
+	animation-delay: 1600ms;
+}
+.anim-4{
+	animation-delay: 1760ms;
 }
 
 /* product et shopping_bsk */
