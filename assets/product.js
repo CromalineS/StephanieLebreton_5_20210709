@@ -1,34 +1,30 @@
-//récupération de l'identifiant produit transmis dans l'URL par la page indx.html = 
+//Contrôle des données de l'URL
 
-let sendId = location.search.substring(1).split('=')[1];	//la chaine des données envoyées via l'URL est transformée en 2 sous-chaine : premier membre du tableau (indice 0) = nom de la donnée, 2eme membre du tableau (indice 1) = valeur de la donnée
-/*console.log(sendId);
-console.log(typeof sendId);*/
+const control = JSON.parse(localStorage.getItem('controlStorage'));
 
-//appel des données correspondant à l'identifiant envoyé via l'URL
-
-function accessData () {										//fonction de récupération des données du serveur	
-		fetch('http://localhost:3000/api/teddies/' + sendId)	//adresse de destination de la requête 	
-		.then(response => response.json())						//conversion de la réponse de la promesse au format JSON → nouvelle promesse qui renvoie les données sous forme de tableau
-		.then(data => productDetails(data))
-		.catch(error => alert('Request failed → ' + error))
+function controlURL(){
+	for(const x in control) {
+		if(control.includes(location.search.substring(1))){				//si l'URL est conforme et que des données sont transmises
+			//récupération de l'identifiant produit transmis dans l'URL par la page index.html = 
+			let sendId = location.search.substring(1).split('=')[1];	//la chaine des données envoyées via l'URL est transformée en 2 sous-chaines : premier membre du tableau (indice 0) = nom de la donnée, 2eme membre du tableau (indice 1) = valeur de la donnée
+			//appel des données correspondant à l'identifiant envoyé via l'URL
+			fetch('http://localhost:3000/api/teddies/' + sendId)		//adresse de destination de la requête 	
+			.then(response => response.json())							//conversion de la réponse de la promesse au format JSON → nouvelle promesse qui renvoie les données sous forme de tableau
+			.then(data => productDetails(data))							//exécute la fonction qui affiche les détails du produit
+			.catch(error => console.log('Request failed → ' + error))
+		}else{
+			document.location.href = 'erreur404.html';						//si l'URL n'est pas conforme ou qu'aucune donnée n'est transmise, l'utilisateur est renvoyé vers la page 'erreur404'
+		}
 	}
-
-//initialisation du local storage = création de l'objet panierStorage pour contenir les données d'un produit
-
-if(localStorage.getItem('panierStorage')){
-	//console.log('Le panier existe déjà');
-}else{
-	//console.log('Création du panier');
-	const init = [];												//création d'un objet array
-	localStorage.setItem('panierStorage', JSON.stringify(init));	//stockage de l'objet 'init' dans le local storage / JSON.stringify() = conversion de l'objet JavaScript en chaine JSON interprétable par le navigateur
 }
+controlURL();
 
 //récupération de "panierStorage" dans "panier" pour pouvoir le remplir avec les données du produits correspondant à l'identifiant transmit dans l'URL
 
 let panier = JSON.parse(localStorage.getItem('panierStorage'));		//JSON.parse() construit un objet JavaScript à partir de la chaine JSON
-console.log(panier);
+console.log(panier);	//contrôle
 
-//construction de la page "détail du produit et choix des options"
+//construction de la page "détails du produit et choix des options"
 
 function productDetails(data) {
 	
@@ -52,40 +48,42 @@ function productDetails(data) {
 /**/choice.innerHTML =											//à revoir, pas besoin de JS sauf pour le bouton qui mentionne le nom du produit
 	`
 		<form class="form-choice">
-			<label for="colors">Choisissez la couleur</label>
+			<label for="colors">Choisissez une couleur</label>
 			<select id="colors"></select>
-		</form>
-		<form class="form-choice">
-			<label for="howMany">Combien en voulez-vous?</label>
-			<input type="number" id="howMany" value='1'>
 		</form>
 		<form class="ajust-button">
 			<input id="buyTeddie" type="button" value="Ajouter ${data.name} au panier !" class="button">
 		</form>
 	`;
 
-	function addOptions(){											//Ajout des options à la liste déroulante du choix des couleurs
-		for(const x of data.colors) {
-			const option = document.createElement('option');		//crée l'élément "option" pour chaque valeur du tableau
-			option.setAttribute('value', x);						//pour pourvoir utiliser la valeur de la couleur peut-être ?
-			option.textContent = x;									//écrit le texte de l'option
-			document.getElementById('colors').append(option);		//ajoute les balises 'option' à la balise 'select' d'id 'colors'			
-		}
+	//Ajout des options à la liste déroulante du choix des couleurs
+	
+	for(const x of data.colors) {
+		const option = document.createElement('option');		//crée l'élément "option" pour chaque valeur du tableau
+		option.setAttribute('value', x);						//pour pourvoir utiliser la valeur de la couleur peut-être ?
+		option.textContent = x;									//écrit le texte de l'option
+		document.getElementById('colors').append(option);		//ajoute les balises 'option' à la balise 'select' d'id 'colors'			
 	}
-	addOptions();
 
 	//stockage de la sélection dans la localStorage
 
 	function addShoppingBasket() {
 		panier.push(data);												//les données du produit sont placée dans le panier
 		localStorage.setItem('panierStorage', JSON.stringify(panier));	//stockage du panier dans le local storage : paire clé(panierStorage)/valeur(objet panier converti en chaine JSON)
-		alert('Produit ajouté : ' + data.name);
 		location.reload();
 	}
-
 	const buyTeddie = document.getElementById('buyTeddie');				
 	buyTeddie.addEventListener('click', addShoppingBasket);				//écouteur = permet d'exécuter la fonction addShoppingBasket au click sur le bouton
-
+	const infoPanier = document.getElementById('info');
+		infoPanier.textContent = panier.length;
+		console.log(panier.length);
 }
 
-accessData();
+
+
+/*
+		<form class="form-choice">
+			<label for="howMany">Combien en voulez-vous?</label>
+			<input type="number" id="howMany" value='1'>
+		</form>
+*/

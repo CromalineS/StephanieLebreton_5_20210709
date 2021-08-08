@@ -25,11 +25,9 @@ function recapProducts() {
 		totalPrice += priceProduct;								//calcule la somme totale du panier
 
 		//suppression d'un produit
-		
 		let deleteBtn = document.getElementById('delete-' + i);	//désigne le bouton 'supprimer' du produit
 		deleteBtn.onclick = function(){							//au clique sur le bouton d'id "delete-i"
 			let productSuppress = panier.splice(i, 1);			//supprime le produit (d'indice i) du panier et la variable supressProduct stocke l'élément supprimé = tableau à un index (0)
-			('Vous avez supprimé ' + productSuppress[0].name + ' du panier.');	//affiche le nom du produit supprimé dans la boite d'alerte
 			localStorage.setItem('panierStorage', JSON.stringify(panier));		//met à jour de panierStorage pour le localStorage
 			totalPrice -= priceProduct;							//déduction du prix du produit supprimé du prix total
 			location.reload();									//recharge la page = panier à jour
@@ -37,20 +35,20 @@ function recapProducts() {
 	}
 	
 	//écriture du prix total du panier
-	
 	const lineTotal = document.createElement('p');				//crée une balise p		
 	lineTotal.textContent = totalPrice + ' €';					//écrit le prix dans la balise p
 	document.getElementById('total').append(lineTotal);			//ajoute la balise p dans la div d'id 'total'
-
 }
 
-recapProducts();												//exécute la fonction de construction du tableau récapitulatif des produits 
+recapProducts();												//exécute la fonction qui construit du tableau récapitulatif des produits 
 
 //VALIDATION DU FORMULAIRE ET ENVOI DES DONNÉES
-		
-			//limiter le nombre de caractères saisis ?
 
-//fonction pour validation des champs du formulaire au moment de l'envoi (clique sur le bouton de validation de la commande)
+if(panier.length === 0){										//si le panier est vide le formulaire n'apparait pas
+	document.getElementById('command').style.display = 'none';
+}
+
+//fonction pour validation des champs du formulaire au clique sur le bouton "validation de la commande"
 
 //création des regex pour tester les champs
 
@@ -58,47 +56,49 @@ const regexText = /^[a-zA-Záàâäåãéèêêëíìîïóòôöõúùûüýÿ�
 const regexMail = /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,6}$/;	//commence par au moins un [lettre, chiffre, point, underscore ou tiret] / @ / au moins deux [lettre, chiffre, point, underscore ou tiret] / un point / se termine par au moins 2 lettres minuscules et jusqu'à 6
 const regexAddress = /^[0-9]+[ a-zA-Záàâäåãéèêêëíìîïóòôöõúùûüýÿçñ]+$/;	//commence par au moins un chiffre / se termine par au moins une lettre
 
-//création d'un tableau vide pour contenir les résultats du tests des champs
+//création d'un tableau vide pour contenir les résultats des tests regex des champs du formulaire
 
 let resultTest = [];										
 	
-//fonction test regex à appliquer aux champs du formulaire
-
-function testRegex(regex, id, i){								//argument i pour remplir le tableau resultTest
-	const input = document.getElementById(id);					//cible l'input
-	const label = input.previousElementSibling;					//cible le label correspondant à l'input
-	if(regex.test(input.value) === false){						//si la valeur du champ ne correspond pas à la regex
-		input.setAttribute('class', 'error-input');				//le champ invalide est mis en évidence (fond rouge)
-		label.lastChild.textContent = 'saisie incorrecte';		//écrit un message d'erreur dans un span dans le label du champ
-		label.lastChild.setAttribute('class', 'error-label');	//le span est mit en évidence (texte rouge)
-		resultTest[i] = 'invalide';							//donne la valeur 'invalide' à la cellule d'indice i du tableau resultTest
-	}else{														//si la valeur du champ correspond à la regex
-		input.removeAttribute('class', 'error-input');			//le champ valide a son aspect d'origine
-		label.lastChild.textContent = '';						//le span dans le label du champ est vide
-		resultTest[i] = 'valide';								//donne la valeur 'valide' à la cellule d'indice i du tableau resultTest
-	}
-	//contrôle (à supprimer)
-	console.log(resultTest);									
-}
-
 //création de l'objet contenant les données à envoyer
 
 const dataToPost = {											
 	contact: {							//objet contact : contient les données du formulaire de contact
-		firstName: document.getElementById('firstName').value,
-		lastName: document.getElementById('lastName').value,
-		address: document.getElementById('address').value,
-		city: document.getElementById('city').value,
-		email: document.getElementById('eMail').value
 	},
 	products: []						//objet products : tableau contenant les id des produits mis dans le panier
 };		
+
+//fonction test regex à appliquer aux champs du formulaire
+
+function testValid(regex, id, i){								//argument i pour remplir le tableau resultTest
+	const input = document.getElementById(id);					//cible l'input
+	const label = input.previousElementSibling;					//cible le label correspondant à l'input (noeud précédent)
+	if(regex.test(input.value) === false){						//si la valeur du champ ne correspond pas à la regex
+		input.setAttribute('class', 'error-input');				//le champ invalide est mis en évidence (fond rouge)
+		label.lastChild.textContent = 'saisie incorrecte';		//écrit un message d'erreur dans un span dans le label du champ
+		label.lastChild.setAttribute('class', 'error-label');	//le span est mit en évidence (texte rouge)
+		resultTest[i] = 'invalide';								//donne la valeur 'invalide' à la cellule d'indice i du tableau resultTest
+	}else{														//si la valeur du champ correspond à la regex
+		input.removeAttribute('class', 'error-input');			//le champ valide a son aspect d'origine
+		label.lastChild.textContent = '';						//le span dans le label du champ est vide
+		resultTest[i] = 'valide';								//donne la valeur 'valide' à la cellule d'indice i du tableau resultTest
+		dataToPost.contact = {									//remplit "contact" de "dataToPost" avec les valeurs validées du fomulaire
+			firstName: document.getElementById('firstName').value,
+			lastName: document.getElementById('lastName').value,
+			address: document.getElementById('address').value,
+			city: document.getElementById('city').value,
+			email: document.getElementById('eMail').value
+		}								
+	}
+	//contrôle
+	console.log(resultTest);									
+}
 							
-for (let i in panier) {					//remplit le tableau products de l'objet dataToPost avec les id des produits du panier											
+for (let i in panier) {											//remplit le tableau "products" de "dataToPost" avec les id des produits du panier											
 	dataToPost.products.push(panier[i]._id);
 }
 
-//contrôle (à supprimer)
+//contrôle
 console.log(panier);
 console.log(dataToPost);
 
@@ -107,16 +107,15 @@ let formulaire = document.getElementById('formValid');
 formulaire.addEventListener('submit', e => postData(e));
 function postData(e){
 	e.preventDefault();												//bloque la soumission du formulaire automatique au click sur le bouton submit pour pouvoir vérifier les données avant l'envoyer les données au serveur
-	testRegex(regexText, 'firstName', 0);							//test champ prénom
-	testRegex(regexText, 'lastName', 1);							//test champ nom
-	testRegex(regexMail, 'eMail', 2);								//test champ email
-	testRegex(regexAddress, 'address', 3);							//test champ adresse
-	testRegex(regexText, 'city', 4);								//test champ ville
+	testValid(regexText, 'firstName', 0);							//test champ prénom
+	testValid(regexText, 'lastName', 1);							//test champ nom
+	testValid(regexMail, 'eMail', 2);								//test champ email
+	testValid(regexAddress, 'address', 3);							//test champ adresse
+	testValid(regexText, 'city', 4);								//test champ ville
 	if(resultTest.includes('invalide')) {							//si au moins un champ du formulaire n'est pas valide												
 		document.getElementById('error-message').textContent = 'Veuillez corriger les saisies incorrectes'; //écrit un message d'erreur dans la balise d'id 'error-message'
 	}else{															//sinon, si tous les champs du formulaire sont valides
-		
-		document.getElementById('error-message').textContent = '';
+		document.getElementById('error-message').textContent = '';	//zone message erreur vide
 		fetch('http://localhost:3000/api/teddies/order/', {			//envoi des données au serveur = requête fetch à l'url du serveur
 			method: 'POST',											//indique la méthode d'envoi des données
 			headers: {'Content-Type': 'application/json'},			//indique le format des données envoyées (JSON)
@@ -128,29 +127,17 @@ function postData(e){
 	}
 }
 
+
 function confirm(data) {
 	console.log('Request successful', data);						//contrôle réussite de la requête dans la console et affichage des données récupérées = tableau contenant un tableau par produit				
 	localStorage.setItem('priceCommand', totalPrice);				//stocke le prix total de la commande dans le localStorage
 	localStorage.setItem('idCommand', data.orderId);				//stocke le numéro de la commande dans le localStorage
-	document.location.href = 'confirm.html';
+	localStorage.removeItem('panierStorage');						//supprime le panier du localStorage
+	document.location.href = 'confirm.html';					
 }
-			
-/*			.then(console.log(response.orderId))					//contrôle (à supprimer)
-/*			.then(function(numCommand){								  			
-					console.log(numCommand.orderId)					//contrôle (à supprimer)
-					localStorage.setItem('prix', prix);				//
-					localStorage.setItem('orderId', numCommand.orderId);
-					window.location = 'url'							//envoie vers la page de validation
-			})								//exécute la fonction qui envoie vers la page de confirmation
-*/			
-															//envoyer les données au serveur et rediriger l'utilisateur vers la page de confimation qui affiche la réponse du serveur
 
 
 
-
-	//si au moins un champ n'est pas valide : bloquer l'envoi → preventDefault()
-	//si tous les champs sont valides : envoyer une requête fetch post contenant les informations des formulaires (créer un tableau ?)
-	//redirection vers la page de confirmation de commande
 
 
 /*juste pour voir les formulaires

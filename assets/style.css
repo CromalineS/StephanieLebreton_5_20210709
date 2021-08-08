@@ -23,6 +23,7 @@ label{
 	margin-top: 10px;
 }
 input, select{
+	font-size: 0.8em;
 	background-color: var(--main);
 	border: solid 1px var(--main);
 	transition: all 400ms;
@@ -115,22 +116,22 @@ input:not(:focus):invalid {		/*montre un champ mal rempli en sortie de focus*/
 	border-radius: 10px;
 }
 .anim{
-	animation: anim 1s both cubic-bezier(0, 0, 0.2, 1);
+	animation: anim 800ms both cubic-bezier(0, 0, 0.2, 1);
 }
 .anim-0{
-	animation-delay: 960ms;
+	animation-delay: 200ms;
 }
 .anim-1{
-	animation-delay: 1120ms;
+	animation-delay: 360ms;
 }
 .anim-2{
-	animation-delay: 1280ms;
+	animation-delay: 420ms;
 }
 .anim-3{
-	animation-delay: 1600ms;
+	animation-delay: 580ms;
 }
 .anim-4{
-	animation-delay: 1760ms;
+	animation-delay: 740ms;
 }
 
 /* product et shopping_bsk */
@@ -170,6 +171,16 @@ input:not(:focus):invalid {		/*montre un champ mal rempli en sortie de focus*/
 	display: flex;
 	flex-direction: column;
 	margin:  10px 0;
+}
+.txt-center{
+	text-align: center;
+	margin: 10px 0;
+}
+.nb-info{
+	background-color: var(--main);
+	border-radius: 50px;
+	width: 50px;
+	margin: auto;
 }
 
 /* shopping_bsk */
