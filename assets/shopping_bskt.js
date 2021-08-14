@@ -1,72 +1,71 @@
 //récupération de panierStorage parce qu'on ne peut pas remplacer un élément de l'objet du localStorage directement
 //→ il faut transformer panierStorage JSON en tableau manipulable (panier) dans le fichier JS
-// le panier JS sera ensuite retranformé en objet JSON pour le localStorage
+// le panier JS sera ensuite retransformé en objet JSON pour le localStorage
 
 let panier = JSON.parse(localStorage.getItem('panierStorage')); //tableau des produits sélectionnés sous forme d'objets contenant les données : _id du produit, son nom et son prix
 
 //CONSTRUCTION DU TABLEAU RÉCAPITULATIF DES PRODUITS SÉLECTIONNÉS ET ANNONCE PRIX TOTAL
 
 let totalPrice = 0;												//initialisation de la variable qui contient le coût total du panier	
+			
+for(let i in panier) {										//pour chaque produit du panier...
+	const list = document.getElementById('list');			//dans la dic d'id 'list'...
+	const line = document.createElement('p');				//créer une ligne pour afficher les données du produit
+	line.setAttribute('class', 'line');					//style de la ligne (flex row wrap)
+	const nameProduct = panier[i].name;						//variable qui stocke le nom de l'ours
+	const priceProduct = panier[i].price / 100;				//variable qui stocke le prix de l'ours
+	list.append(line);										//ajoute la ligne à la liste
+	line.innerHTML =										//ajoute à la ligne les balises p qui contiennent le nom et le prix du produit, et un bouton de suppression
+	`
+		<h3 id="name">${nameProduct}</h3>
+		<p id="price">• ${priceProduct} €</p>
+		<input id="delete-${i}" type="submit" value="Supprimer" class="button">
+	`;
+	totalPrice += priceProduct;								//calcule la somme totale du panier
 
-function recapProducts() {				
-	for(let i in panier) {										//pour chaque produit du panier...
-		const list = document.getElementById('list');			//dans la dic d'id 'list'...
-		const line = document.createElement('p');				//créer une ligne pour afficher les données du produit
-		line.setAttribute('class', 'table');					//style de la ligne (flex row wrap)
-		const nameProduct = panier[i].name;						//variable qui stocke le nom de l'ours
-		const priceProduct = panier[i].price / 100;				//variable qui stocke le prix de l'ours
-		list.append(line);										//ajoute la ligne à la liste
-		line.innerHTML =										//ajoute à la ligne les balises p qui contiennent le nom et le prix du produit, et un bouton de suppression
-		`
-			<p id="name">${nameProduct}</p>
-			<p id="price">${priceProduct} €</p>
-			<input id="delete-${i}" type="submit" value="Supprimer" class="button">
-		`;
-		totalPrice += priceProduct;								//calcule la somme totale du panier
-
-		//suppression d'un produit
-		let deleteBtn = document.getElementById('delete-' + i);	//désigne le bouton 'supprimer' du produit
-		deleteBtn.onclick = function(){							//au clique sur le bouton d'id "delete-i"
-			let productSuppress = panier.splice(i, 1);			//supprime le produit (d'indice i) du panier et la variable supressProduct stocke l'élément supprimé = tableau à un index (0)
-			localStorage.setItem('panierStorage', JSON.stringify(panier));		//met à jour de panierStorage pour le localStorage
-			totalPrice -= priceProduct;							//déduction du prix du produit supprimé du prix total
-			location.reload();									//recharge la page = panier à jour
-			};
-	}
-	
-	//écriture du prix total du panier
-	const lineTotal = document.createElement('p');				//crée une balise p		
-	lineTotal.textContent = totalPrice + ' €';					//écrit le prix dans la balise p
-	document.getElementById('total').append(lineTotal);			//ajoute la balise p dans la div d'id 'total'
+	//suppression d'un produit
+	let deleteBtn = document.getElementById('delete-' + i);	//désigne le bouton 'supprimer' du produit
+	deleteBtn.onclick = function(){							//au clique sur le bouton d'id "delete-i"
+		let productSuppress = panier.splice(i, 1);			//supprime le produit (d'indice i) du panier et la variable supressProduct stocke l'élément supprimé = tableau à un index (0)
+		localStorage.setItem('panierStorage', JSON.stringify(panier));		//met à jour de panierStorage pour le localStorage
+		totalPrice -= priceProduct;							//déduction du prix du produit supprimé du prix total
+		location.reload();									//recharge la page = panier à jour
+		};
 }
 
-recapProducts();												//exécute la fonction qui construit du tableau récapitulatif des produits 
+//écriture du prix total du panier
+
+const lineTotal = document.createElement('p');				//crée une balise p		
+lineTotal.textContent = totalPrice + ' €';					//écrit le prix dans la balise p
+document.getElementById('total').append(lineTotal);			//ajoute la balise p dans la div d'id 'total'
+lineTotal.setAttribute('class', 'nb-info');
 
 //VALIDATION DU FORMULAIRE ET ENVOI DES DONNÉES
 
-if(panier.length === 0){										//si le panier est vide le formulaire n'apparait pas
+//si le panier est vide le formulaire n'apparait pas
+
+if(panier.length === 0){										
+	document.getElementById('list').style.display = 'none';
 	document.getElementById('command').style.display = 'none';
 }
 
-//fonction pour validation des champs du formulaire au clique sur le bouton "validation de la commande"
+//VALIDATION DES CHAMPS DU FORMULAIRE AU CLIC SUR LE BOUTON "Valider de la commande"
 
 //création des regex pour tester les champs
 
-const regexText = /^[a-zA-Záàâäåãéèêêëíìîïóòôöõúùûüýÿçñ]+[-' ]?[a-zA-Záàâäåãéèêêëíìîïóòôöõúùûüýÿçñ]+$///commence par au moins une lettre / contient 0 ou 1 tiret, apostrophe ou espace / se termine par au moins une lettre
+const regexText = /^[a-zA-Záàâäåãéèêêëíìîïóòôöõúùûüýÿçñ ]+[-' ]?[a-zA-Záàâäåãéèêêëíìîïóòôöõúùûüýÿçñ]+$///commence par au moins une lettre / contient 0 ou 1 tiret, apostrophe ou espace / se termine par au moins une lettre
 const regexMail = /^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,6}$/;	//commence par au moins un [lettre, chiffre, point, underscore ou tiret] / @ / au moins deux [lettre, chiffre, point, underscore ou tiret] / un point / se termine par au moins 2 lettres minuscules et jusqu'à 6
-const regexAddress = /^[0-9]+[ a-zA-Záàâäåãéèêêëíìîïóòôöõúùûüýÿçñ]+$/;	//commence par au moins un chiffre / se termine par au moins une lettre
+const regexAddress = /^[a-zA-Z0-9áàâäåãéèêêëíìîïóòôöõúùûüýÿçñ ]+[-' ]?[a-zA-Záàâäåãéèêêëíìîïóòôöõúùûüýÿçñ]+$/;	//commence par au moins un chiffre / se termine par au moins une lettre
 
 //création d'un tableau vide pour contenir les résultats des tests regex des champs du formulaire
 
 let resultTest = [];										
-	
-//création de l'objet contenant les données à envoyer
 
-const dataToPost = {											
-	contact: {							//objet contact : contient les données du formulaire de contact
-	},
-	products: []						//objet products : tableau contenant les id des produits mis dans le panier
-};		
+//création de l'objet contenant les données à envoyer:
+//contact : contient les données du formulaire de contact
+//products : tableau contenant les id des produits mis dans le panier
+
+const dataToPost = {contact: {}, products: []};									
 
 //fonction test regex à appliquer aux champs du formulaire
 
@@ -90,23 +89,21 @@ function testValid(regex, id, i){								//argument i pour remplir le tableau re
 			email: document.getElementById('eMail').value
 		}								
 	}
-	//contrôle
-	console.log(resultTest);									
+	console.log(resultTest);	//contrôle							
 }
 							
-for (let i in panier) {											//remplit le tableau "products" de "dataToPost" avec les id des produits du panier											
+for (let i in panier) {											//remplit le tableau "products" de "dataToPost" avec les _id des produits du panier											
 	dataToPost.products.push(panier[i]._id);
 }
 
-//contrôle
-console.log(panier);
-console.log(dataToPost);
+console.log(panier);		//contrôle
+console.log(dataToPost);	//contrôle
 
 let formulaire = document.getElementById('formValid');
 
-formulaire.addEventListener('submit', e => postData(e));
+formulaire.addEventListener('submit', e => postData(e));			//écouteur sur le bouton de validation de la commande
 function postData(e){
-	e.preventDefault();												//bloque la soumission du formulaire automatique au click sur le bouton submit pour pouvoir vérifier les données avant l'envoyer les données au serveur
+	e.preventDefault();												//bloque la soumission du formulaire automatique au clic sur le bouton submit pour pouvoir vérifier les données avant l'envoyer les données au serveur
 	testValid(regexText, 'firstName', 0);							//test champ prénom
 	testValid(regexText, 'lastName', 1);							//test champ nom
 	testValid(regexMail, 'eMail', 2);								//test champ email
@@ -127,7 +124,6 @@ function postData(e){
 	}
 }
 
-
 function confirm(data) {
 	console.log('Request successful', data);						//contrôle réussite de la requête dans la console et affichage des données récupérées = tableau contenant un tableau par produit				
 	localStorage.setItem('priceCommand', totalPrice);				//stocke le prix total de la commande dans le localStorage
@@ -135,48 +131,3 @@ function confirm(data) {
 	localStorage.removeItem('panierStorage');						//supprime le panier du localStorage
 	document.location.href = 'confirm.html';					
 }
-
-
-
-
-
-/*juste pour voir les formulaires
-	console.log(document.forms);
-	console.log(document.forms[1]);
-	console.log(document.forms[1][0]);
-	console.log(document.forms[1][1]);
-	console.log(document.forms[1][2]);
-	console.log(document.forms[1][3]);
-	console.log(document.forms[1][4]);
-*/
-
-/*
-
-	//construction du tableau récapitulatif des produits
-
-	for(let i=0; i<localStorage.length; i++) {					//parcourt le tableau localStorage
-		const line = document.createElement('p');				//créé l'élément ligne
-		line.setAttribute('class', 'table');
-		const name = localStorage.key(i);						//récupère le nom de l'ours
-		const price = parseFloat(localStorage.getItem(localStorage.key(i)) / 100);	//récupère le prix de l'ours → conversion chaine en nombre
-		document												//ajoute la ligne à la div d'id 'list' 
-			.getElementById('list')
-			.append(line);
-		line.innerHTML =										//ajoute à la ligne les balises p qui contiennent le nom et le prix de l'ours
-		`
-			<p id="name">${name}</p>
-			<p id="price">${price} €</p>
-			<input id="delete-${i}" type="submit" value="Supprimer" class="button"></input>
-		`;
-		totalPrice += price;									//addition des prix à chaque tour de la boucle	
-*/		
-		//suppression d'un produit
-/*			
-		let deleteBtn = document.getElementById('delete-' + i);	
-		deleteBtn.onclick = function(){
-			localStorage.removeItem(localStorage.key(i));
-			totalPrice -= price;
-			location.reload();
-			};
-	}
-*/	

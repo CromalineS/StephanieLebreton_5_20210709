@@ -1,80 +1,82 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>Panier - Oripeluche</title>
-	<title>Nom de l'ours choisi</title>
-	<!--	<link rel="stylesheet" type="text.css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"  integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
--->
-	<link rel="stylesheet" type="text/css" href="assets/style.css">
-</head>
-<body>
 
-	<header id="addButton" class="header">
-		<h1>Oripeluche</h1>
-		<h2>Ours en peluche faits main</h2>
-		<h3>PANIER</h3>
-		<nav> 	<!-- bouton de retour vers le catalogue-->
-			<form action="index.html">
-				<input type="submit" value="Retour au catalogue" class="button">
-			</form>
-		</nav>
-	</header>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="shortcut icon" type="image/png" href="pictures/orinoco_logo_panier.png">
+		<link rel="stylesheet" type="text/css" href="assets/style.css">
+		<title>Panier</title>
+	</head>
 
-	<main>
+	<body>
 
-		<section id="shopBskt" class="section section-horizontal-center anim anim-0">
-
-			<div id="list" class="recap">
-				<h4>Récapitulatif de la commande</h4>
+		<header class="header">
+			<div class="header-logo">
+				<img src="pictures/orinoco_logo_panier.png">
+				<h1>Oripeluche</h1>
 			</div>
-			<div id="total" class="total">
-				<h4>Coût total</h4>
+			<div class="header-page">
+				<h2>Ours en peluche faits main</h2>
 			</div>
-
-		</section>
-
-		<section class="anim anim-1">
-
-			<div id="command" class="section">
-				<form id="formValid" class="form-valid">
-					<div class="valid">
-						<legend>Contact</legend>
-						<label for="firstName">Prénom<span></span></label>
-						<input id="firstName" type="text" maxlength="100">
-						<label for="lastName">Nom<span></span></label>
-						<input id="lastName" type="text" maxlength="100">
-						<label for="eMail">Mail<span></span></label>
-						<input id="eMail" type="text" maxlength="100">
-					</div>
-					<div class="valid">
-						<legend>Adresse</legend>
-						<label for="address">N° et voie<span></span></label>
-						<input id="address" type="text" maxlength="100">
-						<label for="city">Ville<span></span></label>
-						<input id="city" type="text" maxlength="100">
-					</div>
-					<p id="error-message" class="error-message"></p>
-					<div class="button-command button-center">
-						<input id="submit" type="submit" value="Valider la commande" class="button">
-					<div>
+			<nav>
+				<h3>Panier</h3>
+				<form action="index.html"  class="button-center">
+					<input type="submit" value="Retour au catalogue" class="button">
 				</form>
-			</div>
-		
-			
-			
-		</section>
+			</nav>
+		</header>
 
+		<main>
 
-		
-		
-	</main>
+			<section >
+				<div class="section section-horizontal-center section-min anim anim-0">
+					<div id="list" class="frame frame-list">
+					</div>
+					<div id="total" class="frame frame-total price">
+						<h4>COÛT TOTAL</h4>
+					</div>
+				</div>
+			</section>
 
-	<!--	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
--->
-	<script type="text/javascript" src="assets/panier_storage.js" defer></script>
-	<script type="text/javascript" src="assets/shopping_bskt.js" defer></script>
-<!--defer : pour que les scripts JS s'éxécutent après le chargement du DOM sans attendre la fin de ceux des feuilles de style, images ... / remplace écouteur DONContentLoaded dans index.js -->
+			<div class="separate"></div>
 
-</body>
+			<section id="command" class="section section-min anim anim-1">
+					<form id="formValid" class="form-valid">
+						<div class="frame frame-valid">
+							<legend>CONTACT</legend>
+							<label for="firstName">Prénom<span></span></label>
+							<input id="firstName" type="text" maxlength="100">
+							<label for="lastName">Nom<span></span></label>
+							<input id="lastName" type="text" maxlength="100">
+							<label for="eMail">Mail<span></span></label>
+							<input id="eMail" type="text" maxlength="100">
+						</div>
+						<div class="frame frame-valid">
+							<legend>ADRESSE</legend>
+							<label for="address">N° et voie<span></span></label>
+							<input id="address" type="text" maxlength="100">
+							<label for="city">Ville<span></span></label>
+							<input id="city" type="text" maxlength="100">
+						</div>
+						<p id="error-message" class="error-message"></p>
+						<div class="button-center">
+							<input id="submit" type="submit" value="Valider la commande" class="button">
+						<div>
+					</form>
+			</section>
+
+		</main>
+
+		<footer class="footer">
+			<p>© Orinoco</p>
+			<p class="footer-link"><a href="">Contact</a></p>
+			<p class="footer-link"><a href="">Mentions légales</a></p>
+		</footer>
+
+		<script type="text/javascript" src="assets/panier_storage.js" defer></script>
+		<script type="text/javascript" src="assets/shopping_bskt.js" defer></script>
+
+	</body>
+
 </html>

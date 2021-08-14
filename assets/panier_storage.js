@@ -1,4 +1,4 @@
-//initialisation du local storage = création de l'objet panierStorage pour contenir les données d'un produit
+//initialisation du panier dans le localStorage = création de l'objet panierStorage pour contenir les données d'un produit
 
 if(localStorage.getItem('panierStorage')){
 	console.log('Le panier existe');
