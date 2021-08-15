@@ -1,51 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>Oripeluche</title>
-<!--	<link rel="stylesheet" type="text.css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"  integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
--->
-	<link rel="stylesheet" type="text/css" href="assets/style.css">
 
-</head>
-<body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<link rel="shortcut icon" type="image/png" href="pictures/orinoco_logo_panier.png">
+		<link rel="stylesheet" type="text/css" href="assets/style.css">
+		<title>Oripeluche</title>
+	</head>
 
-	<header class="header">
-			<h1>Oripeluche</h1>
-			<h2>Ours en peluche faits main</h2>
-			<h3>Catalogue</h3>
+	<body>
+
+		<header class="header">
+			<div class="header-logo">
+				<img src="pictures/orinoco_logo_panier.png">
+				<h1>Oripeluche</h1>
+			</div>
+			<div class="header-page">
+				<h2>Ours en peluche faits main</h2>
+			</div>
+			<nav>
+				<h3>Catalogue</h3>
+				<form action="shopping_bskt.html" class="button-center">
+					<input type="submit" value="Voir le panier" class="button">
+				</form>
+			</nav>
 		</header>
 
-	<main>
+		<main id="catalog">
+		</main>
 
-		<article id="catalog">
+		<footer class="footer">
+			<p>© Orinoco</p>
+			<p class="footer-link"><a href="" class="footer-a-focus">Contact</a></p>
+			<p class="footer-link"><a href="" class="footer-a-focus">Mentions légales</a></p>
+		</footer>
+		
+		<script type="text/javascript" src="assets/panier_storage.js" defer></script><!-- Création du panier dans le localStorage avant d'exécuter le script général de la page -->
+		<script type="text/javascript" src="assets/index.js" defer></script>
+		<!--defer : pour que les scripts JS s'éxécutent après le chargement du DOM sans attendre la fin de ceux des feuilles de style, images ... / alternative : écouteur DONContentLoaded dans index.js -->
 
-		</article>
-
-	</main>
-
-
-
-
-	
-<!--	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
--->
-	<script type="text/javascript" src="assets/index.js"></script>
-
-
-</body>
+	</body>
 
 </html>
-
-<!--
-		<ul >
-				<li>
-					<p class="adjust-name">Nom de l'ours = name</p>
-					<img src="imageUrl" class="thumbnail-teddies">
-					<form action="product.html" class="adjust-button">
-						<input type="hidden" name="teddyId" value="_id">
-						<input type="submit" value="Je veux voir + name">
-					</form>
-				</li>
-		</ul>
--->
